@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -26,9 +23,10 @@ public class BookRestController {
         this.bookService = bookService;
     }
 
-    public ResponseEntity<Void> addNewBookToShelf(@Valid @RequestBody Book book) {
+    @PostMapping
+    public ResponseEntity<Void> addNewBookToShelf(@Valid @RequestBody BookRequest bookRequest) {
         try {
-
+            bookService.insertNewBook(bookRequest.getBook());
             return ResponseEntity.status(HttpStatusCode.valueOf(201)).build();
         } catch (Exception e) {
             log.warn("Insertion failed", e);

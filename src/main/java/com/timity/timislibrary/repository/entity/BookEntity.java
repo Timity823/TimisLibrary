@@ -14,9 +14,11 @@ import lombok.NoArgsConstructor;
 public class BookEntity {
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "book_id")
     private Integer id;
     private String title;
     private String author;
+    @Column(name = "book_type")
     private BookType bookType;
+    private String description;
 }

@@ -18,14 +18,13 @@ public class BookService {
     }
 
     public void insertNewBook(Book book) {
-        if (book.getId() == null) {
-            throw new UnsupportedOperationException();
-        }
         BookEntity bookEntity = new BookEntity();
         bookEntity.setTitle(book.getTitle());
         bookEntity.setAuthor(book.getAuthor());
         bookEntity.setBookType(book.getBookType());
+        bookEntity.setDescription(book.getDescription());
 
         bookshelf.save(bookEntity);
     }
+
 }

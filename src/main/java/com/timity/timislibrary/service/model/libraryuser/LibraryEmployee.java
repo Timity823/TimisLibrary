@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LibraryEmployee extends BookWorm{
-    private String recommendation;
+    private String comment;
+    private Rating rating;
 }
