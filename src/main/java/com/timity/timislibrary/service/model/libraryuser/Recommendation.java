@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LibraryEmployee extends BookWorm{
+public class Recommendation {
     private String comment;
     private Rating rating;
 }

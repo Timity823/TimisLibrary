@@ -19,6 +19,7 @@ public class BookEntity {
     private String title;
     private String author;
     @Column(name = "book_type")
+    @Enumerated(EnumType.STRING)
     private BookType bookType;
     private String description;
 }

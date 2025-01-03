@@ -1,5 +1,7 @@
 package com.timity.timislibrary.service.model.book;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -23,7 +25,7 @@ public class Book {
     private String author;
     @NotNull
     private String description;
-    @NotNull
+    @NotBlank
     private BookType bookType;
 
 }

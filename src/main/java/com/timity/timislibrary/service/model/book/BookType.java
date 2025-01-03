@@ -1,6 +1,7 @@
 package com.timity.timislibrary.service.model.book;
 
 public enum BookType {
+
     HISTORY,
     FANTASY,
     THRILLER,
@@ -8,5 +9,7 @@ public enum BookType {
     HOBBY,
     CHILD,
     NOVEL,
-    CLASSICAL
+    CLASSICAL;
+
+
 }
