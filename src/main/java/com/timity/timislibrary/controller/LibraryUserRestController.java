@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping(path = "api/v1/library_users")
+@RequestMapping(path = "api/v1/library-users")
 public class LibraryUserRestController {
     private LibraryUserService libraryUserService;
 

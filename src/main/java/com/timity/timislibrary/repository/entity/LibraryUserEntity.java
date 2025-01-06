@@ -1,33 +1,30 @@
 package com.timity.timislibrary.repository.entity;
 
 import com.timity.timislibrary.service.model.libraryuser.LibraryUserType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "library_users")
+@Table(name = "library-users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LibraryUserEntity {
     @Id
     @GeneratedValue
-    private Integer libraryUser_id;
-    @NotBlank
+    @Column(name = "library_user_id")
+    private Integer libraryUserId;
+
     private String name;
-    @NotBlank
+
     private String eMail;
-    @NotNull
+
     private Long phoneNumber;
-    @NotBlank
+
     private String address;
+    @Enumerated(EnumType.STRING)
     private LibraryUserType libraryUserType;
 
 }

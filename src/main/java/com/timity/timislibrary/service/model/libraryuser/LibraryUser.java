@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LibraryUser {
-    private Integer libraryUser_id;
+    private Integer libraryUserId;
     @NotBlank
     private String name;
     private String email;
@@ -20,6 +20,5 @@ public class LibraryUser {
     private Long phoneNumber;
     @NotBlank
     private String address;
-    @Enumerated(EnumType.STRING)
-    private LibraryUserType libraryUserType;
+    private LibraryUserType libraryUserType; //Introduce List Later
 }

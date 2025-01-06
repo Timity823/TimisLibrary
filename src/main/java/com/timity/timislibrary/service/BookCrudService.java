@@ -9,42 +9,46 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BookService {
-
+public class BookCrudService {
+    private final Book2EntityMapper book2EntityMapper;
     private final Bookshelf bookshelf;
 
     @Autowired
-    public BookService(Bookshelf bookshelf) {
+    public BookCrudService(Book2EntityMapper book2EntityMapper, Bookshelf bookshelf) {
+        this.book2EntityMapper = book2EntityMapper;
         this.bookshelf = bookshelf;
     }
 
-    public void insertNewBook(Book book) {
-        BookEntity bookEntity = new BookEntity();
-        bookEntity.setTitle(book.getTitle());
-        bookEntity.setAuthor(book.getAuthor());
-        bookEntity.setBookType(book.getBookType());
-        bookEntity.setDescription(book.getDescription());
 
-        bookshelf.save(bookEntity);
+    public Book insertNewBook(Book book) {
+        if (book.getId() != null) {
+            throw new IllegalArgumentException();
+        }
+        BookEntity bookEntity =book2EntityMapper.convert(book);
+
+        BookEntity savedBook = bookshelf.save(bookEntity);
+
+        Book result = book2EntityMapper.convert(savedBook);
+        return result;
     }
 
-    public void modifyExtendedBook(Book book) {
+    public void modifyExtendedBook(Book book) { //return updated book
         if (book.getId() == null) {
-            throw new UnsupportedOperationException();
+            throw new IllegalArgumentException();
         }
         Optional<BookEntity> bookEntityOptional = bookshelf.findById(book.getId());
-        if (bookEntityOptional.isPresent()){
+        if (bookEntityOptional.isPresent()) {
             BookEntity existingBook = bookEntityOptional.get();
-            if (existingBook.getTitle() !=null){
+            if (existingBook.getTitle() != null) {
                 existingBook.setTitle(book.getTitle());
             }
-            if (existingBook.getAuthor() != null){
+            if (existingBook.getAuthor() != null) {
                 existingBook.setAuthor(book.getAuthor());
             }
-            if (existingBook.getBookType() != null){
+            if (existingBook.getBookType() != null) {
                 existingBook.setBookType(book.getBookType());
             }
-            if (existingBook.getDescription() != null){
+            if (existingBook.getDescription() != null) {
                 existingBook.setDescription(book.getDescription());
             }
             bookshelf.save(existingBook);
