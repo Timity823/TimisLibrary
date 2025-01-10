@@ -6,6 +6,8 @@ import com.timity.timislibrary.service.model.book.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,7 +26,7 @@ public class BookCrudService {
         if (book.getId() != null) {
             throw new IllegalArgumentException();
         }
-        BookEntity bookEntity =book2EntityMapper.convert(book);
+        BookEntity bookEntity = book2EntityMapper.convert(book);
 
         BookEntity savedBook = bookshelf.save(bookEntity);
 
@@ -32,7 +34,7 @@ public class BookCrudService {
         return result;
     }
 
-    public void modifyExtendedBook(Book book) { //return updated book
+    public Book modifyExtendedBook(Book book) { //return updated book
         if (book.getId() == null) {
             throw new IllegalArgumentException();
         }
@@ -53,6 +55,7 @@ public class BookCrudService {
             }
             bookshelf.save(existingBook);
         }
+        return book;
     }
 
     public void deleteAllBooksFromShelf() {
@@ -66,5 +69,26 @@ public class BookCrudService {
         bookshelf.deleteById(bookId);
 
     }
+
+    public List<BookEntity> getAllBooksFromShelf() {
+        return Collections.unmodifiableList(bookshelf.findAll());
+    }
+
+    public Book getBookById(Integer input) {
+        Optional<BookEntity> optionalBookEntity = bookshelf.findById(input);
+
+        if (optionalBookEntity.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        BookEntity simpleEntity = new BookEntity();
+        simpleEntity.setId(optionalBookEntity.get().getId());
+        simpleEntity.setTitle(optionalBookEntity.get().getTitle());
+        simpleEntity.setAuthor(optionalBookEntity.get().getAuthor());
+        simpleEntity.setBookType(optionalBookEntity.get().getBookType());
+        simpleEntity.setDescription(optionalBookEntity.get().getDescription());
+
+        return book2EntityMapper.convert(simpleEntity);
+    }
+
 
 }

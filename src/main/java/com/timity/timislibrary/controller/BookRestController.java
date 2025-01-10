@@ -2,6 +2,7 @@ package com.timity.timislibrary.controller;
 
 import com.timity.timislibrary.controller.dto.BookRequest;
 import com.timity.timislibrary.controller.dto.BookResponse;
+import com.timity.timislibrary.repository.entity.BookEntity;
 import com.timity.timislibrary.service.BookCrudService;
 import com.timity.timislibrary.service.model.book.Book;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -34,12 +37,14 @@ public class BookRestController {
             return ResponseEntity.status(HttpStatusCode.valueOf(406)).build();
         }
     }
+
     @PutMapping
-    public ResponseEntity<Void> updateExistingBook(@Valid @RequestBody BookRequest bookRequest) { //return the updated object
+    public ResponseEntity<BookResponse> updateExistingBook(@Valid @RequestBody BookRequest bookRequest) { //return the updated object
         try {
-            bookService.modifyExtendedBook(bookRequest.getBook());
+            Book book = bookService.modifyExtendedBook(bookRequest.getBook());
+            BookResponse bookResponse = new BookResponse(book);
             log.info("updated Book:{}", bookRequest);
-            return ResponseEntity.status(HttpStatusCode.valueOf(200)).build();
+            return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(bookResponse);
         } catch (Exception e) {
             log.warn("Update is failed", e);
             return ResponseEntity.status(HttpStatusCode.valueOf(406)).build();
@@ -47,9 +52,10 @@ public class BookRestController {
     }
 
     @DeleteMapping
-    public void clearTheShelf(){
+    public void clearTheShelf() {
         bookService.deleteAllBooksFromShelf();
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBookById(@PathVariable("id") Integer bookId) {
         try {
@@ -61,8 +67,26 @@ public class BookRestController {
             return ResponseEntity.notFound().build();
         }
     }
-    //TODO: get endpoints
-
-
+    @GetMapping
+    public List<BookEntity> findAllBooks(){
+       return bookService.getAllBooksFromShelf();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<BookResponse> searchBookById(@PathVariable("id") Integer bookId) {
+        try {
+            log.info("Find match:");
+            Book book =bookService.getBookById(bookId);
+            BookResponse bookResponse = new BookResponse(book);
+            return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(bookResponse);
+        } catch (Exception e) {
+            log.warn("No mach", e);
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }
+
+
+
+
+

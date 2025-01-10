@@ -4,6 +4,9 @@ import com.timity.timislibrary.repository.entity.BookEntity;
 import com.timity.timislibrary.service.model.book.Book;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
+
 @Component
 public class Book2EntityMapper {
     public Book convert(BookEntity bookEntity){
@@ -25,4 +28,15 @@ public class Book2EntityMapper {
         bookEntity.setDescription(book.getDescription());
         return bookEntity;
     }
+
+/*    public BookEntity convert(Optional<BookEntity> optionalBookEntity){
+        BookEntity simpleEntity = new BookEntity();
+        simpleEntity.setId(optionalBookEntity.get().getId());
+        simpleEntity.setTitle(optionalBookEntity.get().getTitle());
+        simpleEntity.setAuthor(optionalBookEntity.get().getAuthor());
+        simpleEntity.setBookType(optionalBookEntity.get().getBookType());
+        simpleEntity.setDescription(optionalBookEntity.get().getDescription());
+        return simpleEntity;
+    }*/
+
 }
